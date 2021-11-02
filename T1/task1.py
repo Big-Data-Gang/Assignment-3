@@ -22,9 +22,8 @@ def findRowsSpark(country, path):
     # joined.show()
 
     #count the number of occurrences of a particular city
-    final = joined.groupBy("City").count()
+    final = joined.groupBy("City").count().orderBy("City")
     # final.show()
-
     # print final as tab spaced columns and rows
     for row in final.collect():
     	print(row[0] + "\t" +str(row[1]))
@@ -32,12 +31,19 @@ def findRowsSpark(country, path):
     spark.stop()
 
     # TODO : Print the result as per output format
-
-if __name__ == '__main__':
-    # to test, execute the following command
-    # $SPARK_HOME/bin/spark-submit task1.py India city_sample.csv > output.txt 
-
+def main():
+    """
+    to test, execute the following command
+    
+    ! to run the code
+        `$SPARK_HOME/bin/spark-submit task1.py India ../city_sample_5percent.csv > ourcode_5percent_india.txt`
+    
+    ! to see the difference in expected output and ourcode
+        `diff ourcode_5percent_india.txt t1_output_5percent_india.txt`
+    """
     if len(sys.argv) != 3:
         raise Exception("Re-run the script in this format: task1.py <country> <path>")
         sys.exit(-1)
     findRowsSpark(sys.argv[1], sys.argv[2])
+if __name__ == '__main__':
+    main()

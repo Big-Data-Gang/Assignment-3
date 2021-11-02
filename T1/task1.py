@@ -29,8 +29,7 @@ def findRowsSpark(country, path):
     	print(row[0] + "\t" +str(row[1]))
     
     spark.stop()
-
-    # TODO : Print the result as per output format
+    
 def main():
     """
     to test, execute the following command

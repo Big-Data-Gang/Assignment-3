@@ -9,27 +9,29 @@ def exceedAvg(city_path, global_path):
     city_df = spark.read.csv(city_path, header=True, inferSchema=True)
     global_df = spark.read.csv(global_path, header=True, inferSchema=True) 
 
-    city_df.show()
-    global_df.show()
+    # city_df.show()
+    # global_df.show()
 
     # Group by both Date and Country to get max temp for each country on each date
     grouped = city_df.groupBy("dt", "Country").agg(F.max("AverageTemperature").alias('max_temp'))
-    grouped.show()
+    # grouped.show()
 
     # Join with global df on date
     joined = grouped.join(global_df, on = 'dt', how = 'inner')
-    joined.show()
+    # joined.show()
 
     # Filter rows where max for each country on a date > global temp on that date
     exceeds = joined.where(joined['max_temp'] > joined['LandAverageTemperature'])
-    exceeds.show()
+    # exceeds.show()
 
     # After filter, group by country and count 
-    result = exceeds.groupBy('Country').count()
-    result.show()
-    spark.stop()
+    result = exceeds.groupBy('Country').count().orderBy('Country')
+    # result.show()
 
-    # TODO : Print the result as per output format
+    for row in result.collect():
+    	print(row[0] + "\t" +str(row[1]))
+
+    spark.stop()
 
 if __name__ == '__main__':
     # to test, execute the following command

@@ -1,5 +1,6 @@
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
+from pyspark.sql.types import FloatType
 import sys
 
 def exceedAvg(city_path, global_path):
@@ -7,7 +8,10 @@ def exceedAvg(city_path, global_path):
 
     #Read the 2 csvs as dfs
     city_df = spark.read.csv(city_path, header=True, inferSchema=True)
+    city_df.AverageTemperature = city_df.AverageTemperature.cast(FloatType())
+    
     global_df = spark.read.csv(global_path, header=True, inferSchema=True) 
+    global_df.LandAverageTemperature = global_df.LandAverageTemperature.cast(FloatType())
 
     # city_df.show()
     # global_df.show()

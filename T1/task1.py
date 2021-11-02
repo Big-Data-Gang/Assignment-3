@@ -8,25 +8,27 @@ def findRowsSpark(country, path):
 
     spark = SparkSession.builder.appName("findRows").getOrCreate()
     df = spark.read.csv(path, header=True, inferSchema=True)
-    df.show()
+    # df.show()
     df = df.filter(df.Country == country)
     # find average of column for all groups of column City
     groupedByCity = df.groupBy("City").agg(F.mean('AverageTemperature'))
     
     # join groupedByCity and df over City column
     joined = df.join(groupedByCity, on = ["City"], how='inner')
-    print("joined table")
-    joined.show()
+    # joined.show()
     
     # count rows where AverageTemperature is greater than the average
-    print("Matched values for given criteria")
-    joined = joined.filter(joined.AverageTemperature > joined["avg(AverageTemperature)"])
-    joined.show()
+    joined = joined.filter(joined["AverageTemperature"] > joined["avg(AverageTemperature)"])
+    # joined.show()
 
-    #count the number of occurances of a particular city
+    #count the number of occurrences of a particular city
     final = joined.groupBy("City").count()
-    print("Only whatever is after this is the output>>>>")
-    final.show()
+    # final.show()
+
+    # print final as tab spaced columns and rows
+    for row in final.collect():
+    	print(row[0] + "\t" +str(row[1]))
+    
     spark.stop()
 
     # TODO : Print the result as per output format

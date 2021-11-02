@@ -29,6 +29,8 @@ def findRowsSpark(country, path):
     final.show()
     spark.stop()
 
+    # TODO : Print the result as per output format
+
 if __name__ == '__main__':
     # to test, execute the following command
     # $SPARK_HOME/bin/spark-submit task1.py India city_sample.csv > output.txt 

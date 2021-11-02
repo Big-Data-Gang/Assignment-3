@@ -29,6 +29,8 @@ def exceedAvg(city_path, global_path):
     result.show()
     spark.stop()
 
+    # TODO : Print the result as per output format
+
 if __name__ == '__main__':
     # to test, execute the following command
     # $SPARK_HOME/bin/spark-submit task2.py ../city_sample.csv ../global_sample.csv > output.txt 

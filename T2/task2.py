@@ -16,11 +16,11 @@ def exceedAvg(city_path, global_path):
     grouped = city_df.groupBy("dt", "Country").agg(F.max("AverageTemperature").alias('max_temp'))
     # grouped.show()
 
-    # Join with global df on date
+    # # Join with global df on date
     joined = grouped.join(global_df, on = 'dt', how = 'inner')
     # joined.show()
 
-    # Filter rows where max for each country on a date > global temp on that date
+    # # Filter rows where max for each country on a date > global temp on that date
     exceeds = joined.where(joined['max_temp'] > joined['LandAverageTemperature'])
     # exceeds.show()
 

@@ -12,7 +12,7 @@ def findRowsSpark(country, path):
     df = df.filter(df.Country == country)
     # find average of column for all groups of column City
     groupedByCity = df.groupBy("City").agg(F.mean('AverageTemperature'))
-    
+    # groupedByCity.show()
     # join groupedByCity and df over City column
     joined = df.join(groupedByCity, on = ["City"], how='inner')
     # joined.show()
